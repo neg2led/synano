@@ -1,0 +1,19 @@
+#!/bin/sh
+
+case ${MakeClean} in
+    [Yy][Ee][Ss])
+        make distclean
+        ;;
+esac
+
+NCURSES_INCS="$(pkg-config ncurses --cflags)"
+NCURSES_LIBS="$(pkg-config ncurses --libs)"
+
+CFLAGS="${CFLAGS} ${NCURSES_INCS}"
+LDFLAGS="${LDFLAGS} ${NCURSES_LIBS}"
+NanoOpt="--enable-utf8 --disable-nls --enable-color --enable-extra --enable-multibuffer --enable-nanorc"
+
+env CC="${CC}" AR="${AR}" CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" \
+./configure ${ConfigOpt} ${NanoOpt}
+
+make ${MAKE_FLAGS}
